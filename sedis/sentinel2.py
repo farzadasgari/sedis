@@ -77,7 +77,7 @@ columns_to_keep.extend(other_columns)
 
 df_clean = df[columns_to_keep]
 
-csv_file = 'dataset/kansas.csv'
+csv_file = 'dataset/sentinel.csv'
 df_clean.to_csv(csv_file, index=False)
 
 os.remove(temp_csv_file)
