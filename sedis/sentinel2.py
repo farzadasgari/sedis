@@ -14,8 +14,8 @@ import pandas as pd
 ee.Authenticate()
 ee.Initialize(project=project_id)
 
-start_date = '2018-11-20'
-end_date = '2025-01-03'
+start_date = '2017-03-28'
+end_date = '2025-10-12'
 
 aoi = ee.Geometry.Rectangle([lon_min, lat_min, lon_max, lat_max], 'EPSG:4326', False)
 
@@ -39,6 +39,18 @@ selected = filtered.select(bands + ['SCL'])
 
 masked = selected.map(mask_clouds).map(mask_water)
 
+def mosaic_by_date(col):
+    dates = col.toList(col.size()).map(lambda img: ee.Image(img).date().format('YYYY-MM-dd')).distinct()
+    
+    def create_mosaic(date_str):
+        date = ee.Date(date_str)
+        day_imgs = col.filterDate(date, date.advance(1, 'day')).mosaic()
+        return day_imgs.set('Date', date.format('YYYY-MM-dd'))
+    
+    return ee.ImageCollection(dates.map(create_mosaic))
+
+mosaicked = mosaic_by_date(masked)
+
 def compute_means(image):
     means = image.reduceRegion(
         reducer=ee.Reducer.mean(),
@@ -46,10 +58,10 @@ def compute_means(image):
         scale=10,
         bestEffort=True
     )
-    date = image.date().format('YYYY-MM-dd')
+    date = image.get('Date')
     return ee.Feature(None, means).set('Date', date)
 
-means_collection = ee.FeatureCollection(masked.map(compute_means))
+means_collection = ee.FeatureCollection(mosaicked.map(compute_means))
 
 download_url = means_collection.getDownloadURL('CSV')
 
@@ -82,4 +94,4 @@ df_clean.to_csv(csv_file, index=False)
 
 os.remove(temp_csv_file)
 
-print(f"Download and processing successful! Cleaned CSV saved as {csv_file}")
+print(f"Download and processing successful! Cleaned CSV saved")
