@@ -7,3 +7,5 @@ __pycache__/
 dataset/
 venv/
 config.py
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
