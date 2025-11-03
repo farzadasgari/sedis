@@ -48,6 +48,7 @@ ipython_pygments_lexers==1.1.1
 isoduration==20.11.0
 jedi==0.19.2
 Jinja2==3.1.6
+joblib==1.5.2
 json5==0.12.1
 jsonpointer==3.0.0
 jsonschema==4.25.1
@@ -87,6 +88,7 @@ proto-plus==1.26.1
 protobuf==6.31.1
 psutil==7.1.0
 pure_eval==0.2.3
+pyaml==25.7.0
 pyasn1==0.6.1
 pyasn1_modules==0.4.2
 pycparser==2.23
@@ -107,6 +109,8 @@ rfc3986-validator==0.1.1
 rfc3987-syntax==1.1.0
 rpds-py==0.27.1
 rsa==4.9.1
+scikit-learn==1.7.2
+scikit-optimize==0.10.2
 scipy==1.16.2
 seaborn==0.13.2
 Send2Trash==1.8.3
@@ -117,6 +121,7 @@ soupsieve==2.8
 stack-data==0.6.3
 statsmodels==0.14.5
 terminado==0.18.1
+threadpoolctl==3.6.0
 tinycss2==1.4.0
 tornado==6.5.2
 traitlets==5.14.3
